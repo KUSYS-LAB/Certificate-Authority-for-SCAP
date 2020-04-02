@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.korea.sans.ca.mapper.CrlMapper">
+	<resultMap type="kr.ac.korea.sans.ca.dto.CrlDto" id="CrlDtoResult">
+		<result column="serial_number" property="serialNumber"/>
+		<result column="revoked_date" property="revokedDate"/>
+		<result column="reason" property="reason"/>
+	</resultMap>
+
+	<select id="getAll" resultMap="CrlDtoResult">
+		SELECT *
+		FROM crl
+		ORDER BY serial_number DESC;
+	</select>
+	
+	<insert id="insertOne" parameterType="kr.ac.korea.sans.ca.dto.CrlDto">
+		INSERT
+		INTO crl(serial_number, revoked_date, reason)
+		VALUES(#{serialNumber}, #{revokedDate}, #{reason});
+	</insert>
+	
+	<insert id="insertExpiredCerts" parameterType="java.util.List">
+		INSERT 
+		INTO crl (serial_number, revoked_date, reason)
+		VALUES
+			<foreach collection="list" item="cert" separator=",">
+				(#{cert.serialNumber}, #{cert.revokedDate}, #{cert.reason})
+			</foreach>
+	</insert>
+</mapper>

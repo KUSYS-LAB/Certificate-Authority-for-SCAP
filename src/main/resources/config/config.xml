@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<certificate>
+		<!--
+		crypto-type: RSA, EC
+		later, this move to application.properties
+		 -->
+		<crypto-type>RSA</crypto-type>
+		<signature>sha256RSA</signature>
+		<signature-hash>sha256</signature-hash>
+	</certificate>
+</configuration>

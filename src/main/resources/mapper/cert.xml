@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.korea.sans.ca.mapper.CertMapper">
+	<resultMap type="kr.ac.korea.sans.ca.dto.CertDto" id="CertDtoResult">
+		<result column="serial_number" property="serialNumber"/>
+		<result column="issued_date" property="issuedDate"/>
+		<result column="not_before" property="notBefore"/>
+		<result column="not_after" property="notAfter"/>
+	</resultMap>
+
+	<insert id="insertOne" parameterType="kr.ac.korea.sans.ca.dto.CertDto">
+		INSERT
+		INTO cert (serial_number, issued_date, not_before, not_after)
+		VALUES (#{serialNumber}, #{issuedDate}, #{notBefore}, #{notAfter});
+	</insert>
+	
+	<select id="getOne" resultMap="CertDtoResult">
+		SELECT *
+		FROM cert
+		ORDER BY serial_number DESC
+		LIMIT 1;
+	</select>
+	
+	<select id="getAll" resultMap="CertDtoResult">
+		SELECT *
+		FROM cert
+		ORDER BY serial_number DESC;
+	</select>
+	
+	<select id="getAllNotInCrl" resultMap="CertDtoResult">
+		SELECT *
+		FROM cert
+		WHERE serial_number NOT IN
+			(
+				SELECT serial_number
+				FROM crl
+			)
+		ORDER BY serial_number DESC;
+	</select>
+</mapper>
